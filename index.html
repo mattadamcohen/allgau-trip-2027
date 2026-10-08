@@ -159,6 +159,8 @@ td.muted { color: var(--muted); }
 #flights-table tr.best td { background: var(--good-bg); }
 .pill { display: inline-block; font-size: 12px; font-weight: 700; color: var(--good); border: 1px solid currentColor; border-radius: 99px; padding: 1px 8px; margin-left: 6px; }
 .price { font-weight: 700; }
+.pp { font-size: 13px; font-weight: 400; color: var(--muted); }
+.tbc { color: var(--accent); font-weight: 600; }
 .empty { background: var(--card); border: 1px dashed var(--rule); border-radius: 12px; padding: 32px; display: flex; flex-direction: column; gap: 10px; }
 .empty h3 { font-size: 22px; }
 .empty p { color: var(--muted); max-width: 60ch; }
@@ -431,7 +433,7 @@ footer { background: var(--forest); color: var(--on-forest-soft); padding-block:
       <div class="section-head">
         <p class="eyebrow">Getting there</p>
         <h2>Flights to Zurich</h2>
-        <p class="lede">Options we're tracking for out on Fri 23 April and back on Fri 30 April. Prices are what we saw on the date checked; the cheapest is highlighted.</p>
+        <p class="lede">Options we're tracking, all coming home Fri 30 April. Flying out Thu 22 April instead of the 23rd gives us the whole first day, with one night somewhere near the airport before check-in. We compare price per person, since some searches were for 4 travellers and some for 5. Prices are as seen on the date checked; the cheapest is highlighted.</p>
       </div>
       <form class="search" id="flight-search" novalidate>
         <div class="search-grid">
@@ -458,8 +460,8 @@ footer { background: var(--forest); color: var(--on-forest-soft); padding-block:
       </form>
       <div class="flight-summary" id="flight-summary" hidden>
         <div><span>Options tracked</span><b id="fs-count">0</b></div>
-        <div><span>Cheapest</span><b id="fs-min">–</b></div>
-        <div><span>Most expensive</span><b id="fs-max">–</b></div>
+        <div><span>Cheapest per person</span><b id="fs-min">–</b></div>
+        <div><span>Priciest per person</span><b id="fs-max">–</b></div>
       </div>
       <div class="sort" id="flight-sort" hidden>
         <label>Sort by</label>
@@ -469,7 +471,7 @@ footer { background: var(--forest); color: var(--on-forest-soft); padding-block:
       </div>
       <div class="table-wrap" id="flights-wrap" hidden>
         <table id="flights-table">
-          <thead><tr><th>Airline</th><th>Outbound · Fri 23 Apr</th><th>Return · Fri 30 Apr</th><th>Stops</th><th>Total price</th><th>Checked</th><th>Notes</th></tr></thead>
+          <thead><tr><th>Airline</th><th>Outbound</th><th>Return · Fri 30 Apr</th><th>Route</th><th>Stops</th><th>Price per person</th><th>Checked</th><th>Notes</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -504,8 +506,18 @@ footer { background: var(--forest); color: var(--on-forest-soft); padding-block:
    Add one object per option. price = total for the whole family, in the currency shown.
    stops: 0 = direct. checked: date the price was seen (YYYY-MM-DD). */
 const FLIGHTS = [
+  { airline: "Lufthansa", date: "Thu 22 Apr", outbound: "07:00 → 10:10", return: "11:10 → 16:00", route: "TLV ⇄ MUC", stops: 0, perPerson: 571, price: 2284, travelers: 4, checked: "2026-10-08", source: "Skyscanner", notes: "" },
+  { airline: "Lufthansa", date: "Thu 22 Apr", outbound: "17:05 → 20:15", return: "11:10 → 16:00", route: "TLV ⇄ MUC", stops: 0, perPerson: 556, price: 2222, travelers: 4, checked: "2026-10-08", source: "Skyscanner", notes: "" },
+  { airline: "Swiss", date: "Thu 22 Apr", outbound: "04:50 → 08:10", return: "22:40 → 03:35 +1", route: "TLV ⇄ ZRH", stops: 0, perPerson: 694, price: 2776, travelers: 4, checked: "2026-10-08", source: "Skyscanner", notes: "Lands home after 3:30 am" },
+  { airline: "Swiss", date: "Thu 22 Apr", outbound: "18:15 → 21:35", return: "11:50 → 17:00", route: "TLV ⇄ ZRH", stops: 0, perPerson: 676, price: 2702, travelers: 4, checked: "2026-10-08", source: "Skyscanner", notes: "" },
+  { airline: "Lufthansa", date: "Thu 22 Apr", outbound: "07:00 → 10:10", return: "11:10 → 16:00", route: "TLV ⇄ MUC", stops: 0, perPerson: 588, price: 2937, travelers: 5, checked: "2026-10-08", source: "Skyscanner", notes: "Searched for 5 travellers" },
+  { airline: "Lufthansa", date: "Thu 22 Apr", outbound: "17:05 → 20:15", return: "11:10 → 16:00", route: "TLV ⇄ MUC", stops: 0, perPerson: 575, price: 2873, travelers: 5, checked: "2026-10-08", source: "Skyscanner", notes: "Searched for 5 travellers" },
+  { airline: "Lufthansa", date: "Fri 23 Apr", outbound: "07:00 → 10:10", return: "11:10 → 16:00", route: "TLV ⇄ MUC", stops: 0, perPerson: 626, price: 2503, travelers: 4, checked: "2026-10-08", source: "Skyscanner", notes: "" },
+  { airline: "Lufthansa", date: "Fri 23 Apr", outbound: "17:05 → 20:15", return: "11:10 → 16:00", route: "TLV ⇄ MUC", stops: 0, perPerson: 521, price: 2083, travelers: 4, checked: "2026-10-08", source: "Skyscanner", notes: "" },
+  { airline: "Swiss", date: "Fri 23 Apr", outbound: "04:50 → 08:10", return: "22:40 → 03:35 +1", route: "TLV ⇄ ZRH", stops: 0, perPerson: 660, price: 2637, travelers: 4, checked: "2026-10-08", source: "Skyscanner", notes: "Lands home after 3:30 am" },
+  { airline: "Swiss", date: "Fri 23 Apr", outbound: "18:15 → 21:35", return: "11:50 → 17:00", route: "TLV ⇄ ZRH", stops: 0, perPerson: 585, price: 2340, travelers: 4, checked: "2026-10-08", source: "Skyscanner", notes: "" },
 ];
-const CURRENCY = "€";
+const CURRENCY = "$";
 
 (function () {
   // Countdown to departure
@@ -556,7 +568,7 @@ const CURRENCY = "€";
 
   if (!FLIGHTS.length) return;
   const fmt = n => CURRENCY + Number(n).toLocaleString("en-US");
-  const prices = FLIGHTS.map(f => f.price);
+  const prices = FLIGHTS.map(f => f.perPerson);
   const min = Math.min(...prices);
   document.getElementById("fs-count").textContent = FLIGHTS.length;
   document.getElementById("fs-min").textContent = fmt(min);
@@ -567,13 +579,14 @@ const CURRENCY = "€";
   const tbody = document.querySelector("#flights-table tbody");
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   function render(key) {
-    const rows = [...FLIGHTS].sort((a, b) => key === "checked" ? String(b.checked).localeCompare(String(a.checked)) : (a[key] - b[key]) || (a.price - b.price));
-    tbody.innerHTML = rows.map(f => `<tr class="${f.price === min ? "best" : ""}">
+    const rows = [...FLIGHTS].sort((a, b) => key === "checked" ? String(b.checked).localeCompare(String(a.checked)) : (key === "price" ? a.perPerson - b.perPerson : a[key] - b[key]) || (a.perPerson - b.perPerson));
+    tbody.innerHTML = rows.map(f => `<tr class="${f.perPerson === min ? "best" : ""}">
       <td><b>${esc(f.airline)}</b></td>
-      <td>${esc(f.outbound)}</td>
+      <td>${f.date ? `<b>${esc(f.date)}</b> · ` : '<span class="tbc">Date to confirm</span> · '}${esc(f.outbound)}</td>
       <td>${esc(f.return)}</td>
+      <td>${esc(f.route)}</td>
       <td>${f.stops === 0 ? "Direct" : f.stops + " stop" + (f.stops > 1 ? "s" : "")}</td>
-      <td class="price">${fmt(f.price)}${f.price === min ? '<span class="pill">Cheapest</span>' : ""}</td>
+      <td class="price">${fmt(f.perPerson)}${f.perPerson === min ? '<span class="pill">Cheapest</span>' : ""}<div class="pp">${fmt(f.price)} total · ${f.travelers} travellers</div></td>
       <td>${esc(f.checked)}</td>
       <td class="wrap-ok">${f.link ? `<a href="${esc(f.link)}" target="_blank" rel="noopener">${esc(f.source || "Link")}</a>` : esc(f.source)}${f.notes ? (f.source || f.link ? " · " : "") + esc(f.notes) : ""}</td>
     </tr>`).join("");
