@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Park Allgäu 2027</title>
+<meta name="description" content="Family trip to Center Parcs Park Allgäu, 23–30 April 2027">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=DM+Sans:opsz,wght@9..40,400..700&display=swap">
+<style>
+/* Layout: one long scroll, a forest-green opening and closing band framing cream content sections; a sticky chapter bar to jump between them. */
+:root {
+  --forest: #1e3b2f;
+  --forest-2: #28493b;
+  --on-forest: #f5f1e8;
+  --on-forest-soft: #cfd8cf;
+  --bg: #f5f1e8;
+  --bg-alt: #ebe5d6;
+  --card: #fbf8f1;
+  --fg: #1f2421;
+  --muted: #5b6560;
+  --rule: #d9d1bf;
+  --accent: #b8461a;
+  --accent-soft: #f0a868;
+  --good: #2f6b4a;
+  --good-bg: #dcebdf;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --gutter: clamp(16px, 4vw, 48px);
+  --max: 1120px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --forest: #142a21; --forest-2: #1d3a2d; --on-forest: #f2eee4; --on-forest-soft: #b9c6ba;
+    --bg: #17201b; --bg-alt: #1c2721; --card: #222e27; --fg: #ece7dc; --muted: #a8b2ab;
+    --rule: #34423a; --accent: #f0a868; --accent-soft: #f0a868; --good: #8fd1a8; --good-bg: #213a2c;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --forest: #142a21; --forest-2: #1d3a2d; --on-forest: #f2eee4; --on-forest-soft: #b9c6ba;
+  --bg: #17201b; --bg-alt: #1c2721; --card: #222e27; --fg: #ece7dc; --muted: #a8b2ab;
+  --rule: #34423a; --accent: #f0a868; --accent-soft: #f0a868; --good: #8fd1a8; --good-bg: #213a2c;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 17px; line-height: 1.55; }
+img { max-width: 100%; display: block; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 500; line-height: 1.1; text-wrap: balance; margin: 0; }
+h2 { font-size: clamp(30px, 4.4vw, 46px); }
+h3 { font-size: 22px; font-weight: 600; line-height: 1.2; }
+p { margin: 0; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.wrap { max-width: var(--max); margin: 0 auto; padding-inline: var(--gutter); }
+.eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+.lede { font-size: 19px; color: var(--muted); max-width: 62ch; }
+.section { padding-block: clamp(56px, 8vw, 96px); }
+.section.alt { background: var(--bg-alt); }
+.section-head { display: flex; flex-direction: column; gap: 10px; margin-bottom: 36px; }
+
+/* Hero */
+.hero { background: var(--forest); color: var(--on-forest); }
+.hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; min-height: 560px; }
+.hero-copy { display: flex; flex-direction: column; justify-content: center; gap: 22px; padding: 64px var(--gutter); max-width: 640px; margin-left: auto; }
+.hero .eyebrow { color: var(--accent-soft); }
+.hero h1 { font-size: clamp(44px, 7vw, 84px); line-height: 1.0; }
+.hero p { color: var(--on-forest-soft); font-size: 20px; max-width: 34ch; }
+.hero-img { position: relative; min-height: 320px; }
+.hero-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.facts { display: flex; flex-wrap: wrap; gap: 28px; margin-top: 8px; }
+.facts div { display: flex; flex-direction: column; }
+.facts b { font-family: var(--font-display); font-size: 30px; font-weight: 500; color: var(--on-forest); font-variant-numeric: tabular-nums; }
+.facts span { font-size: 14px; color: var(--on-forest-soft); }
+.countdown { font-size: 15px; color: var(--accent-soft); font-weight: 600; }
+
+/* Chapter nav */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); border-bottom: 1px solid var(--rule); }
+.nav ul { list-style: none; margin: 0 auto; max-width: var(--max); padding: 0 var(--gutter); display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.nav a { display: block; padding: 14px 12px; font-size: 14px; font-weight: 600; color: var(--muted); text-decoration: none; white-space: nowrap; border-bottom: 2px solid transparent; }
+.nav a:hover { color: var(--fg); border-bottom-color: var(--accent); }
+
+/* Verdict */
+.verdict { display: grid; grid-template-columns: 1fr 360px; gap: 56px; align-items: center; }
+.verdict blockquote { margin: 0; font-family: var(--font-display); font-size: clamp(24px, 3vw, 34px); line-height: 1.3; }
+.verdict cite { display: block; margin-top: 16px; font-style: normal; color: var(--muted); }
+.verdict img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 14px; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 32px; }
+.note { background: var(--bg-alt); border-radius: 12px; padding: 20px 22px; display: flex; flex-direction: column; gap: 6px; }
+.note h3 { font-family: var(--font-body); font-size: 16px; font-weight: 700; color: var(--accent); }
+
+/* Cottage */
+.cottage { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+.stats { display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 24px; }
+.stats div { display: flex; flex-direction: column; }
+.stats b { font-family: var(--font-display); font-size: 48px; font-weight: 500; color: var(--accent); line-height: 1; font-variant-numeric: tabular-nums; }
+.stats span { font-size: 14px; color: var(--muted); margin-top: 6px; }
+.ticks { list-style: none; padding: 0; margin: 0 0 24px; display: flex; flex-direction: column; gap: 10px; }
+.ticks li { padding-left: 26px; position: relative; }
+.ticks li::before { content: ""; position: absolute; left: 0; top: 0.55em; width: 12px; height: 2px; background: var(--accent); }
+.small { font-size: 15px; color: var(--muted); }
+.stack { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.stack img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 14px; }
+
+/* Golf cart band */
+.band { background: var(--forest); color: var(--on-forest); }
+.band .eyebrow { color: var(--accent-soft); }
+.band h2 { font-size: clamp(40px, 6vw, 72px); }
+.band .lede { color: var(--on-forest-soft); }
+.band-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
+.band-cards div { background: var(--forest-2); border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 8px; }
+.band-cards h3 { color: var(--accent-soft); }
+.band-cards p { color: var(--on-forest-soft); }
+
+/* Feature (image + text) */
+.feature { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items: start; }
+.feature img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 14px; }
+.big { font-family: var(--font-display); font-size: 64px; line-height: 1; color: var(--accent); }
+.plain { margin: 16px 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+.free { font-weight: 700; color: var(--good); }
+
+/* Card grid */
+.grid { display: grid; gap: 24px; }
+.grid.g4 { grid-template-columns: repeat(4, 1fr); }
+.grid.g3 { grid-template-columns: repeat(3, 1fr); }
+.grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.tile { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.tile img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px; margin-bottom: 4px; }
+.tile p { color: var(--muted); }
+.after { margin-top: 28px; color: var(--muted); max-width: 70ch; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+th { text-align: left; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 10px 14px; border-bottom: 2px solid var(--fg); }
+td { padding: 14px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+td.drive { color: var(--accent); font-weight: 700; white-space: nowrap; }
+td.muted { color: var(--muted); }
+
+/* Week */
+.days { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; }
+.days li { display: grid; grid-template-columns: 110px 1fr; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--rule); }
+.days li:first-child { border-top: 1px solid var(--rule); }
+.days .d { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.days .park { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--good); background: var(--good-bg); border-radius: 99px; padding: 2px 10px; margin-left: 8px; vertical-align: 2px; }
+
+/* Flights */
+.flight-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 28px; }
+.flight-summary div { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 4px; }
+.flight-summary span { font-size: 13px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+.flight-summary b { font-family: var(--font-display); font-size: 30px; font-weight: 500; font-variant-numeric: tabular-nums; }
+#flights-table td { white-space: nowrap; }
+#flights-table td.wrap-ok { white-space: normal; min-width: 180px; }
+#flights-table tr.best td { background: var(--good-bg); }
+.pill { display: inline-block; font-size: 12px; font-weight: 700; color: var(--good); border: 1px solid currentColor; border-radius: 99px; padding: 1px 8px; margin-left: 6px; }
+.price { font-weight: 700; }
+.empty { background: var(--card); border: 1px dashed var(--rule); border-radius: 12px; padding: 32px; display: flex; flex-direction: column; gap: 10px; }
+.empty h3 { font-size: 22px; }
+.empty p { color: var(--muted); max-width: 60ch; }
+.sort { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
+.sort label { font-size: 14px; color: var(--muted); }
+.sort button { font: inherit; font-size: 14px; padding: 6px 14px; border-radius: 99px; border: 1px solid var(--rule); background: var(--card); color: var(--fg); cursor: pointer; }
+.sort button[aria-pressed="true"] { background: var(--forest); color: var(--on-forest); border-color: var(--forest); }
+
+/* Tips */
+.tips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.tips div { background: var(--card); border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 8px; }
+.tips h3 { color: var(--forest); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tips h3 { color: var(--accent-soft); } }
+:root[data-theme="dark"] .tips h3 { color: var(--accent-soft); }
+.tips p { color: var(--muted); }
+
+footer { background: var(--forest); color: var(--on-forest-soft); padding-block: 40px; font-size: 14px; }
+
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; min-height: 0; }
+  .hero-copy { margin: 0; max-width: none; padding-block: 48px; }
+  .hero-img { min-height: 280px; order: -1; }
+  .verdict, .cottage, .feature { grid-template-columns: 1fr; gap: 32px; }
+  .verdict img { max-width: 360px; }
+  .grid.g4 { grid-template-columns: repeat(2, 1fr); }
+  .grid.g3, .band-cards, .tips, .flight-summary { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) {
+  .grid.g4, .grid.g3, .grid.g2, .band-cards, .tips, .pair, .flight-summary { grid-template-columns: 1fr; }
+  .days li { grid-template-columns: 1fr; gap: 4px; }
+  .stats { gap: 28px; }
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">Family trip · 23–30 April 2027</p>
+      <h1>Center Parcs Park Allgäu</h1>
+      <p>A week in the green hills of southern Germany, with Shelly's tips from her family's stay.</p>
+      <div class="facts">
+        <div><b>7</b><span>nights</span></div>
+        <div><b>Zurich</b><span>fly in &amp; out</span></div>
+        <div><b>~1 hr</b><span>to everything</span></div>
+      </div>
+      <p class="countdown" id="countdown"></p>
+    </div>
+    <div class="hero-img"><img src="images/fox-playground.jpg" alt="Giant fox playground at Park Allgäu"></div>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Sections">
+  <ul>
+    <li><a href="#verdict">Why here</a></li>
+    <li><a href="#cottage">Cottage</a></li>
+    <li><a href="#park">In the park</a></li>
+    <li><a href="#daytrips">Day trips</a></li>
+    <li><a href="#week">The week</a></li>
+    <li><a href="#flights">Flights</a></li>
+    <li><a href="#tips">Tips</a></li>
+  </ul>
+</nav>
+
+<main>
+  <section class="section" id="verdict">
+    <div class="wrap verdict">
+      <div>
+        <p class="eyebrow">The verdict</p>
+        <blockquote style="margin-top:16px">“One of the best trips we've ever had. Everything is unbelievably green, the sausages are perfect, the beers are fun, and the kids are in a dream.”
+          <cite>Shelly, after her family's stay</cite>
+        </blockquote>
+        <div class="pair">
+          <div class="note"><h3>Drawback 1: remote</h3><p>Many locals don't speak English. Google Translate gets you through.</p></div>
+          <div class="note"><h3>Drawback 2: cold</h3><p>Dress really warm. They had cold weather but not a single day of rain.</p></div>
+        </div>
+      </div>
+      <img src="images/net-bridge.jpg" alt="Net bridge walk in the park">
+    </div>
+  </section>
+
+  <section class="section alt" id="cottage">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Where we stay</p><h2>The Exclusive cottage for 6</h2></div>
+      <div class="cottage">
+        <div>
+          <div class="stats">
+            <div><b>103 m²</b><span>living space</span></div>
+            <div><b>3</b><span>bedrooms</span></div>
+            <div><b>6</b><span>guests max</span></div>
+          </div>
+          <ul class="ticks">
+            <li>Every bedroom has its own shower or bath</li>
+            <li>Private sauna, wood fireplace, cosy living room and a garden</li>
+            <li>Fresh pastries delivered to the cottage every morning</li>
+            <li>Spotless, and in Shelly's words, “it changes everything”</li>
+          </ul>
+          <p class="small">Agent listing seen: €2,070 (was €2,299) for 2 adults and 2 kids. Get a fresh quote for 23–30 April 2027.</p>
+        </div>
+        <div class="stack">
+          <img src="images/cottage-kitchen.jpg" alt="Cottage kitchen">
+          <img src="images/cottage-fireplace.jpg" alt="Cottage living room with fireplace">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band" id="park">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Shelly's top tip</p>
+        <h2>Rent a golf cart.</h2>
+        <p class="lede">The park is huge and April is cold. A golf cart upgrades everything and makes getting around the grounds effortless.</p>
+      </div>
+      <div class="band-cards">
+        <div><h3>Central building</h3><p>It has everything. Restaurants are OK: they ordered a few times but cooked in the cottage a lot.</p></div>
+        <div><h3>The bakery</h3><p>Excellent. They topped up the morning pastries daily and picked up treats whenever needed.</p></div>
+        <div><h3>Groceries</h3><p>A very well stocked shop on site, plus Lidl supermarkets a short drive away.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">In the park</p><h2>Aqua Mundo, the tropical water park</h2></div>
+      <div class="feature">
+        <img src="images/aqua-mundo.jpg" alt="Aqua Mundo pool">
+        <div>
+          <p class="big">165 m</p>
+          <p class="small" style="margin-top:8px">wild river, the longest in any Center Parcs</p>
+          <ul class="plain">
+            <li>5 water slides</li>
+            <li>Kids' water play area with 4 small slides</li>
+            <li>Wave pool and outdoor pool</li>
+            <li>Snorkel pool with tropical fish</li>
+            <li>Two jacuzzis</li>
+          </ul>
+          <p class="free">Free for park guests</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">In the park</p><h2>Rainy days are covered</h2></div>
+      <div class="grid g4">
+        <div class="tile"><img src="images/ballooba-1.jpg" alt="Ballooba indoor playground"><h3>Ballooba</h3><p>Huge indoor playground: ball pits, slides, climbing, trampolines.</p></div>
+        <div class="tile"><img src="images/ballooba-2.jpg" alt="Ballooba car track"><h3>Ballooba</h3><p>Car track and soft play. Plan for hours, kids won't want to leave.</p></div>
+        <div class="tile"><img src="images/arcade.jpg" alt="Arcade"><h3>Arcade</h3><p>Air hockey, claw machines and ticket games.</p></div>
+        <div class="tile"><img src="images/bumper-boats.jpg" alt="Bumper boats"><h3>Bumper cars</h3><p>Indoor bumper boats in a jungle setting.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">In the park</p><h2>Two full days here is plenty</h2></div>
+      <div class="grid g3">
+        <div class="tile"><img src="images/fox-playground.jpg" alt="Adventure playground"><h3>Adventure playgrounds</h3><p>Giant fox, spring riders and sandpits around the grounds.</p></div>
+        <div class="tile"><img src="images/bowling.jpg" alt="Bowling lanes"><h3>Bowling</h3><p>Family lanes with ramps for little ones.</p></div>
+        <div class="tile"><img src="images/kids-farm.jpg" alt="Kids' farm"><h3>Kids' farm</h3><p>Meet donkeys and farm animals.</p></div>
+      </div>
+      <p class="after">Also on site: zip-line coaster, ropes course, mini golf, e-cars. Shelly: rent bikes for the kids for at least one day.</p>
+    </div>
+  </section>
+
+  <section class="section alt" id="daytrips">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Day trips</p>
+        <h2>Short outings, then back to the park</h2>
+        <p class="lede">Shelly's rhythm: a small outing most days, two days spent entirely in the park. The Allgäu-Walser-Card bundles cable cars and attraction discounts.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Destination</th><th>Drive</th><th>Best for</th></tr>
+          <tr><td>Eistobel nature reserve</td><td class="drive">20 min</td><td class="muted">Short nature walk</td></tr>
+          <tr><td>Ravensburger Spieleland</td><td class="drive">40 min</td><td class="muted">Little kids</td></tr>
+          <tr><td>Alpsee Bergwelt toboggan</td><td class="drive">40 min</td><td class="muted">Everyone</td></tr>
+          <tr><td>Skywalk Allgäu</td><td class="drive">45 min</td><td class="muted">All ages, stroller OK</td></tr>
+          <tr><td>Skyline Park</td><td class="drive">45 min</td><td class="muted">Older kids</td></tr>
+          <tr><td>Legoland Deutschland</td><td class="drive">~1 hr</td><td class="muted">Kids up to ~10</td></tr>
+          <tr><td>Lake Constance</td><td class="drive">~1 hr</td><td class="muted">Full day out</td></tr>
+          <tr><td>Mountain cable cars</td><td class="drive">30–60 min</td><td class="muted">Views and play areas</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Day trips</p><h2>Into the mountains</h2></div>
+      <div class="grid g2">
+        <div class="tile"><img src="images/alpsee-bergwelt.jpg" alt="Alpsee Bergwelt toboggan run"><h3>Alpsee Bergwelt · 40 min</h3><p>Germany's longest summer toboggan run, plus the AlpseeSkytrail ropes park next door. Kids ride on a parent's lap.</p></div>
+        <div class="tile"><img src="images/skywalk.jpg" alt="Skywalk Allgäu treetop walkway"><h3>Skywalk Allgäu · 45 min</h3><p>Treetop walkway on 4 levels, stroller friendly, with a lift. Playground, water play, barefoot trail and animal corner at the entrance.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Day trips</p><h2>Theme parks</h2></div>
+      <div class="feature">
+        <img src="images/legoland.jpg" alt="Legoland Deutschland">
+        <div style="display:flex;flex-direction:column;gap:24px">
+          <div><h3>Legoland Deutschland · ~1 hr</h3><p class="small" style="margin-top:6px">Rides and activities from age one, ideal up to about 10. Buy skip-the-line tickets in advance.</p></div>
+          <div><h3>Ravensburger Spieleland · 40 min</h3><p class="small" style="margin-top:6px">Closer, and especially good for little kids.</p></div>
+          <div><h3>Skyline Park · 45 min</h3><p class="small" style="margin-top:6px">60 rides, mostly for older kids, some for small ones.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Day trips</p><h2>Lake Constance, a full day</h2></div>
+      <div class="feature">
+        <img src="images/lindau.jpg" alt="Lindau harbour">
+        <div>
+          <p>About an hour away, where Germany, Austria and Switzerland meet. Nature and town in one day.</p>
+          <ul class="plain">
+            <li>Stroll the island town of Lindau</li>
+            <li>Affenberg Salem, where monkeys roam free</li>
+            <li>Mainau, the flower island</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" id="week">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">The plan</p>
+        <h2>A suggested week</h2>
+        <p class="lede">One short outing most days, two full days in the park. Swap days around the weather forecast.</p>
+      </div>
+      <ol class="days">
+        <li><span class="d">Fri 23</span><span>Fly to Zurich, pick up a comfortable car, drive to the park, settle in, first swim</span></li>
+        <li><span class="d">Sat 24</span><span>Aqua Mundo, Ballooba, get the golf cart rolling <span class="park">Park day</span></span></li>
+        <li><span class="d">Sun 25</span><span>Skywalk Allgäu in the morning, sauna and fireplace evening</span></li>
+        <li><span class="d">Mon 26</span><span>Bikes, kids' farm, bowling, arcade <span class="park">Park day</span></span></li>
+        <li><span class="d">Tue 27</span><span>Alpsee Bergwelt toboggan and Skytrail</span></li>
+        <li><span class="d">Wed 28</span><span>Legoland, or Ravensburger Spieleland for a shorter day</span></li>
+        <li><span class="d">Thu 29</span><span>Lake Constance: Lindau and the monkey park</span></li>
+        <li><span class="d">Fri 30</span><span>Check out early, chocolate museum near Zurich, fly home</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="flights">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Getting there</p>
+        <h2>Flights to Zurich</h2>
+        <p class="lede">Options we're tracking for out on Fri 23 April and back on Fri 30 April. Prices are what we saw on the date checked; the cheapest is highlighted.</p>
+      </div>
+      <div class="flight-summary" id="flight-summary" hidden>
+        <div><span>Options tracked</span><b id="fs-count">0</b></div>
+        <div><span>Cheapest</span><b id="fs-min">–</b></div>
+        <div><span>Most expensive</span><b id="fs-max">–</b></div>
+      </div>
+      <div class="sort" id="flight-sort" hidden>
+        <label>Sort by</label>
+        <button type="button" id="sort-price" data-key="price" aria-pressed="true">Price</button>
+        <button type="button" id="sort-stops" data-key="stops" aria-pressed="false">Stops</button>
+        <button type="button" id="sort-checked" data-key="checked" aria-pressed="false">Date checked</button>
+      </div>
+      <div class="table-wrap" id="flights-wrap" hidden>
+        <table id="flights-table">
+          <thead><tr><th>Airline</th><th>Outbound · Fri 23 Apr</th><th>Return · Fri 30 Apr</th><th>Stops</th><th>Total price</th><th>Checked</th><th>Notes</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="empty" id="flights-empty">
+        <h3>No flights added yet</h3>
+        <p>As you find options, send them over (airline, times, stops, total price for the family, and where you saw it) and they'll be added here so we can compare prices side by side.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" id="tips">
+    <div class="wrap">
+      <div class="section-head"><p class="eyebrow">Before we go</p><h2>Practical tips</h2></div>
+      <div class="tips">
+        <div><h3>Comfortable car</h3><p>We drive most days and the kids will nap on the way. Worth upgrading.</p></div>
+        <div><h3>Book the golf cart</h3><p>Reserve it with the cottage so it's there from day one.</p></div>
+        <div><h3>Pack for cold</h3><p>Warm coats, hats and gloves, even in late April.</p></div>
+        <div><h3>Offline German</h3><p>Download Google Translate German. English is limited locally.</p></div>
+        <div><h3>Cook in</h3><p>Use the cottage kitchen, the on-site shop and the nearby Lidl.</p></div>
+        <div><h3>Check April dates</h3><p>Confirm seasonal openings for Legoland, Spieleland, toboggans and cable cars.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Built from Shelly's notes and the travel-agent pages she shared (graivertravel.co.il, bartravel.com).</div>
+</footer>
+
+<script>
+/* ===== FLIGHTS =====
+   Add one object per option. price = total for the whole family, in the currency shown.
+   stops: 0 = direct. checked: date the price was seen (YYYY-MM-DD). */
+const FLIGHTS = [
+];
+const CURRENCY = "€";
+
+(function () {
+  // Countdown to departure
+  const trip = new Date("2027-04-23T00:00:00");
+  const days = Math.ceil((trip - new Date()) / 86400000);
+  const cd = document.getElementById("countdown");
+  if (days > 1) cd.textContent = days + " days to go";
+  else if (days === 1) cd.textContent = "Tomorrow!";
+  else if (days > -7) cd.textContent = "We're on the trip!";
+
+  if (!FLIGHTS.length) return;
+  const fmt = n => CURRENCY + Number(n).toLocaleString("en-US");
+  const prices = FLIGHTS.map(f => f.price);
+  const min = Math.min(...prices);
+  document.getElementById("fs-count").textContent = FLIGHTS.length;
+  document.getElementById("fs-min").textContent = fmt(min);
+  document.getElementById("fs-max").textContent = fmt(Math.max(...prices));
+  ["flight-summary", "flight-sort", "flights-wrap"].forEach(id => document.getElementById(id).hidden = false);
+  document.getElementById("flights-empty").hidden = true;
+
+  const tbody = document.querySelector("#flights-table tbody");
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  function render(key) {
+    const rows = [...FLIGHTS].sort((a, b) => key === "checked" ? String(b.checked).localeCompare(String(a.checked)) : (a[key] - b[key]) || (a.price - b.price));
+    tbody.innerHTML = rows.map(f => `<tr class="${f.price === min ? "best" : ""}">
+      <td><b>${esc(f.airline)}</b></td>
+      <td>${esc(f.outbound)}</td>
+      <td>${esc(f.return)}</td>
+      <td>${f.stops === 0 ? "Direct" : f.stops + " stop" + (f.stops > 1 ? "s" : "")}</td>
+      <td class="price">${fmt(f.price)}${f.price === min ? '<span class="pill">Cheapest</span>' : ""}</td>
+      <td>${esc(f.checked)}</td>
+      <td class="wrap-ok">${f.link ? `<a href="${esc(f.link)}" target="_blank" rel="noopener">${esc(f.source || "Link")}</a>` : esc(f.source)}${f.notes ? (f.source || f.link ? " · " : "") + esc(f.notes) : ""}</td>
+    </tr>`).join("");
+  }
+  document.querySelectorAll("#flight-sort button").forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll("#flight-sort button").forEach(x => x.setAttribute("aria-pressed", x === b));
+    render(b.dataset.key);
+  }));
+  render("price");
+})();
+</script>
+</body>
+</html>
