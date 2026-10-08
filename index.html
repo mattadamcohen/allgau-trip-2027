@@ -167,6 +167,19 @@ td.muted { color: var(--muted); }
 .sort button { font: inherit; font-size: 14px; padding: 6px 14px; border-radius: 99px; border: 1px solid var(--rule); background: var(--card); color: var(--fg); cursor: pointer; }
 .sort button[aria-pressed="true"] { background: var(--forest); color: var(--on-forest); border-color: var(--forest); }
 
+/* Flight search */
+.search { background: var(--card); border: 1px solid var(--rule); border-radius: 14px; padding: 24px; margin-bottom: 36px; display: flex; flex-direction: column; gap: 18px; }
+.search-grid { display: grid; grid-template-columns: 0.8fr 1.6fr 1fr 1fr 0.6fr 1fr; gap: 14px; }
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.field label { font-size: 13px; font-weight: 600; color: var(--muted); }
+.field input, .field select { font: inherit; font-size: 16px; padding: 10px 12px; border: 1px solid var(--rule); border-radius: 8px; background: var(--bg); color: var(--fg); width: 100%; min-width: 0; }
+#fs-from { text-transform: uppercase; }
+.search-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.search-actions button { font: inherit; font-weight: 600; font-size: 15px; padding: 11px 18px; border-radius: 99px; border: 1px solid var(--forest); background: var(--forest); color: var(--on-forest); cursor: pointer; }
+.search-actions button + button { background: transparent; color: var(--fg); border-color: var(--rule); }
+.search-actions button:hover { border-color: var(--accent); }
+#fs-msg.err { color: var(--accent); font-weight: 600; }
+
 /* Tips */
 .tips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .tips div { background: var(--card); border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 8px; }
@@ -185,6 +198,8 @@ footer { background: var(--forest); color: var(--on-forest-soft); padding-block:
   .verdict img { max-width: 360px; }
   .grid.g4 { grid-template-columns: repeat(2, 1fr); }
   .grid.g3, .band-cards, .tips, .flight-summary { grid-template-columns: 1fr 1fr; }
+  .search-grid { grid-template-columns: 1fr 1fr; }
+  .search-grid .field:nth-child(2) { grid-column: span 2; order: -1; }
 }
 @media (max-width: 560px) {
   .grid.g4, .grid.g3, .grid.g2, .band-cards, .tips, .pair, .flight-summary { grid-template-columns: 1fr; }
@@ -418,6 +433,29 @@ footer { background: var(--forest); color: var(--on-forest-soft); padding-block:
         <h2>Flights to Zurich</h2>
         <p class="lede">Options we're tracking for out on Fri 23 April and back on Fri 30 April. Prices are what we saw on the date checked; the cheapest is highlighted.</p>
       </div>
+      <form class="search" id="flight-search" novalidate>
+        <div class="search-grid">
+          <div class="field"><label for="fs-from">From (airport code)</label><input id="fs-from" value="TLV" maxlength="3" autocomplete="off" spellcheck="false"></div>
+          <div class="field"><label for="fs-to">To</label>
+            <select id="fs-to">
+              <option value="ZRH">Zurich (ZRH) · ~1 hr 45 drive</option>
+              <option value="FMM">Memmingen (FMM) · ~40 min drive</option>
+              <option value="MUC">Munich (MUC) · ~2 hr drive</option>
+              <option value="FDH">Friedrichshafen (FDH) · ~50 min drive</option>
+            </select>
+          </div>
+          <div class="field"><label for="fs-out">Depart</label><input id="fs-out" type="date" value="2027-04-23"></div>
+          <div class="field"><label for="fs-back">Return</label><input id="fs-back" type="date" value="2027-04-30"></div>
+          <div class="field"><label for="fs-adults">Adults</label><input id="fs-adults" type="number" min="1" max="9" value="2"></div>
+          <div class="field"><label for="fs-kids">Children's ages</label><input id="fs-kids" placeholder="e.g. 7, 4" autocomplete="off"></div>
+        </div>
+        <div class="search-actions">
+          <button type="submit" data-engine="google">Search Google Flights</button>
+          <button type="submit" data-engine="skyscanner">Search Skyscanner</button>
+          <button type="submit" data-engine="kayak">Search Kayak</button>
+        </div>
+        <p class="small" id="fs-msg" role="status">Opens the search in a new tab. Children's ages are needed for accurate family prices.</p>
+      </form>
       <div class="flight-summary" id="flight-summary" hidden>
         <div><span>Options tracked</span><b id="fs-count">0</b></div>
         <div><span>Cheapest</span><b id="fs-min">–</b></div>
@@ -477,6 +515,44 @@ const CURRENCY = "€";
   if (days > 1) cd.textContent = days + " days to go";
   else if (days === 1) cd.textContent = "Tomorrow!";
   else if (days > -7) cd.textContent = "We're on the trip!";
+
+  // Flight search: builds a pre-filled search on each site and opens it in a new tab
+  const form = document.getElementById("flight-search");
+  let engine = "google";
+  form.querySelectorAll("button[data-engine]").forEach(b => b.addEventListener("click", () => engine = b.dataset.engine));
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const msg = document.getElementById("fs-msg");
+    const from = document.getElementById("fs-from").value.trim().toUpperCase();
+    const to = document.getElementById("fs-to").value;
+    const out = document.getElementById("fs-out").value;
+    const back = document.getElementById("fs-back").value;
+    const adults = Math.max(1, parseInt(document.getElementById("fs-adults").value, 10) || 1);
+    const kidsRaw = document.getElementById("fs-kids").value.trim();
+    const kids = kidsRaw ? kidsRaw.split(/[\s,]+/).filter(Boolean).map(Number) : [];
+    const fail = t => { msg.textContent = t; msg.className = "small err"; };
+    if (!/^[A-Z]{3}$/.test(from)) return fail("Enter a 3-letter airport code to fly from, like TLV.");
+    if (!out || !back || back < out) return fail("Pick a return date on or after the departure date.");
+    if (kids.some(a => !Number.isInteger(a) || a < 0 || a > 17)) return fail("Children's ages should be whole numbers from 0 to 17, separated by commas.");
+    msg.textContent = "Opened in a new tab. Children's ages are needed for accurate family prices.";
+    msg.className = "small";
+
+    const ymd = d => d.slice(2).replace(/-/g, "");
+    let url;
+    if (engine === "skyscanner") {
+      url = `https://www.skyscanner.net/transport/flights/${from.toLowerCase()}/${to.toLowerCase()}/${ymd(out)}/${ymd(back)}/?adultsv2=${adults}&cabinclass=economy&rtn=1` +
+        (kids.length ? `&childrenv2=${kids.join("%7C")}` : "");
+    } else if (engine === "kayak") {
+      url = `https://www.kayak.com/flights/${from}-${to}/${out}/${back}/${adults}adults` +
+        (kids.length ? `/children-${kids.map(a => a < 2 ? "1S" : a).join("-")}` : "") + "?sort=price_a";
+    } else {
+      const pax = `${adults} adult${adults > 1 ? "s" : ""}` + (kids.length ? ` and ${kids.length} child${kids.length > 1 ? "ren" : ""}` : "");
+      url = "https://www.google.com/travel/flights?q=" + encodeURIComponent(`Flights from ${from} to ${to} on ${out} through ${back} for ${pax}`);
+    }
+    const a = document.createElement("a");
+    a.href = url; a.target = "_blank"; a.rel = "noopener";
+    document.body.appendChild(a); a.click(); a.remove();
+  });
 
   if (!FLIGHTS.length) return;
   const fmt = n => CURRENCY + Number(n).toLocaleString("en-US");
